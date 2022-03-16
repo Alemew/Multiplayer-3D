@@ -9,13 +9,22 @@ public class ConnectionControl : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        //PhotonNetwork.ConnectUsingSettings();
     }
 
+    public void PhotonServerConnect()
+    {
+        if (PhotonNetwork.IsConnected == false)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+    }
+    
     public override void OnConnected()
     {
         base.OnConnected();
         Debug.Log("Estamos conectados a internet");
+        Debug.Log("Bienvenido"+ PhotonNetwork.NickName);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
