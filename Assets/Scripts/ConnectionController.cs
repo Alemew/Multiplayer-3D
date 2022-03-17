@@ -3,27 +3,37 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ConnectionControl : MonoBehaviourPunCallbacks
+public class ConnectionController : MonoBehaviourPunCallbacks
 {
 
     public GameObject panelUser;
+    public GameObject panelConnect;
     public GameObject panelLobby;
     public GameObject panelRoom;
     
     void Start()
     {
+        RandomName();
         panelLobby.SetActive(false);
         panelUser.SetActive(true);
         panelRoom.SetActive(false);
+        panelConnect.SetActive(false);
+    }
+    
+    void RandomName()
+    {
+        InputField inputFieldNickName = panelUser.GetComponentInChildren<InputField>();
+        inputFieldNickName.text = "Player " + Random.Range(1, 100);
     }
 
     public void PhotonServerConnect()
     {
-        if (PhotonNetwork.IsConnected == false)
+        if (PhotonNetwork.IsConnected == false && string.IsNullOrEmpty(PhotonNetwork.NickName) == false)
         {
             PhotonNetwork.ConnectUsingSettings();
-            panelLobby.SetActive(true);
+            panelConnect.SetActive(true);
             panelUser.SetActive(false);
         }
     }
@@ -46,27 +56,15 @@ public class ConnectionControl : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         Debug.Log("Estamos conectados al servidor Photon");
         Debug.Log("Bienvenido "+ PhotonNetwork.NickName);
-        panelLobby.SetActive(false);
-        panelRoom.SetActive(true);
+        panelLobby.SetActive(true);
+        panelConnect.SetActive(false);
     }
 
-    public void JoinRandomRoom()
+    public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        PhotonNetwork.JoinRandomRoom();
-    }
-
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        base.OnJoinRoomFailed(returnCode, message);
+        base.OnJoinRandomFailed(returnCode, message);
         Debug.Log("No se puede unir a la sala. "+message);
-        CreateRoomAndJoin();
     }
 
-    private void CreateRoomAndJoin()
-    {
-        string nameUser = PhotonNetwork.NickName;
-        Debug.Log("User name "+ nameUser);
-    }
     
-        
 }
