@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,14 +24,61 @@ public class LobbyController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        textNamePlayer.text = PhotonNetwork.NickName;
         PhotonNetwork.JoinLobby();
+    }
+
+    public void SetRoomName()
+    {
+        _roomName = textRoomName.text;
+    }
+    
+    public void SetRoomCapacity()
+    {
+        _roomCapacity = int.Parse(textRoomCapacity.text);
+    }
+
+    public void CreateRoom()
+    {
+        SetRoomName();
+        SetRoomCapacity();
+        Debug.Log("Creating a new room "+ _roomName+ " ......");
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.IsVisible = true;
+        roomOptions.MaxPlayers = (byte) _roomCapacity;
+        roomOptions.IsOpen = true;
+        if (string.IsNullOrEmpty(_roomName)== false && _roomCapacity !=0)
+        {
+            PhotonNetwork.CreateRoom(_roomName, roomOptions);
+            Debug.Log("You have create a room: "+ _roomName);
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        
+        Debug.Log("This room name already exist");
+    }
+
+    public void ExitPanelLobby()
+    {
+        _panelUser.SetActive(true);
+        _panelLobby.SetActive(false);
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+        }
+        PhotonNetwork.Disconnect();
+        Debug.Log("Exit Lobby");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("You have joined the "+ _roomName+" room.");
+        _panelLobby.SetActive(false);
+        _panelRoom.SetActive(true);
+        GameObject textPlayerName = _panelRoom.transform.Find("TextPlayerName").gameObject;
+        textPlayerName.GetComponent<Text>().text = PhotonNetwork.NickName;
+        GameObject textNameRoom = _panelRoom.transform.Find("TextNameRoom").gameObject;
+        textNameRoom.GetComponent<Text>().text = _roomName;
     }
 }

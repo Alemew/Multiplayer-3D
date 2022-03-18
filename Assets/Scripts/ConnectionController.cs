@@ -35,6 +35,8 @@ public class ConnectionController : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             panelConnect.SetActive(true);
             panelUser.SetActive(false);
+            GameObject textPlayerName = panelLobby.transform.Find("TextPlayerName").gameObject;
+            textPlayerName.GetComponent<Text>().text = PhotonNetwork.NickName;
         }
     }
     
