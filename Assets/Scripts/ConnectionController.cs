@@ -35,8 +35,7 @@ public class ConnectionController : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             panelConnect.SetActive(true);
             panelUser.SetActive(false);
-            GameObject textPlayerName = panelLobby.transform.Find("TextPlayerName").gameObject;
-            textPlayerName.GetComponent<Text>().text = PhotonNetwork.NickName;
+            
         }
     }
     
@@ -60,6 +59,9 @@ public class ConnectionController : MonoBehaviourPunCallbacks
         Debug.Log("Bienvenido "+ PhotonNetwork.NickName);
         panelLobby.SetActive(true);
         panelConnect.SetActive(false);
+        GameObject textPlayerName = panelLobby.transform.Find("TextPlayerName").gameObject;
+        textPlayerName.GetComponent<Text>().text = PhotonNetwork.NickName;
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
