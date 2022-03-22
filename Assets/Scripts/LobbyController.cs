@@ -20,6 +20,9 @@ public class LobbyController : MonoBehaviourPunCallbacks
     private GameObject _panelUser;
     [SerializeField] 
     private GameObject _panelRoom;
+
+    public Transform roomsContainer;
+    public GameObject prefabRoomInList;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,32 @@ public class LobbyController : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo room in roomList)
+        {
+            ListRoomInScrollView(room);
+        }
+    }
+
+    void DeleteScrollViewRooms()
+    {
+        for (int i = roomsContainer.childCount-1; i >=0; i--)
+        {
+            Destroy(roomsContainer.GetChild(i).gameObject);
+        }
+    }
+
+    void ListRoomInScrollView(RoomInfo room)
+    {
+        if (room.IsOpen && room.IsVisible)
+        {
+            GameObject prefabButtonRoom = Instantiate(prefabRoomInList, roomsContainer);
+            ButtonRoom buttonRoom = prefabButtonRoom.GetComponent<ButtonRoom>();
+            buttonRoom.SetRoom(room.Name,room.MaxPlayers,room.PlayerCount);
+        }
+    }
+    
     public void SetRoomName()
     {
         _roomName = textRoomName.text;
