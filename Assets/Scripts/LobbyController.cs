@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -23,16 +24,59 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public Transform roomsContainer;
     public GameObject prefabRoomInList;
+    
+    
+    private Dictionary<string, RoomInfo> cachedRoomList;
+
+    private void Awake()
+    {
+        cachedRoomList = new Dictionary<string, RoomInfo>();
+    }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         DeleteScrollViewRooms();
-        
-        for (int i =0; i<roomList.Count; i++)
+
+        UpdateCachedRoomList(roomList);
+        UpdateRoomListView();
+
+    }
+    
+    private void UpdateCachedRoomList(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo room in roomList)
         {
-            ListRoomInScrollView(roomList[i]);
-            Debug.Log(roomList.Count);
-            Debug.Log(i);
+            // Remove room from cached room list if it got closed, became invisible or was marked as removed
+            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList)
+            {
+                if (cachedRoomList.ContainsKey(room.Name))
+                {
+                    cachedRoomList.Remove(room.Name);
+                }
+            }
+            else
+            {
+                // Update cached room info
+                if (cachedRoomList.ContainsKey(room.Name))
+                {
+                    cachedRoomList[room.Name] = room;
+                }
+                // Add new room info to cache
+                else
+                {
+                    cachedRoomList.Add(room.Name, room);
+                }
+            }
+        }
+    }
+
+    private void UpdateRoomListView()
+    {
+        foreach (RoomInfo room in cachedRoomList.Values)
+        {
+            GameObject entry = Instantiate(prefabRoomInList,roomsContainer);
+            entry.GetComponent<ButtonRoom>().SetRoom(room.Name, room.MaxPlayers, room.PlayerCount);
+            
         }
     }
 
@@ -43,17 +87,6 @@ public class LobbyController : MonoBehaviourPunCallbacks
             Destroy(roomsContainer.GetChild(i).gameObject);
         }
     }
-
-    void ListRoomInScrollView(RoomInfo room)
-    {
-        if (room.IsOpen && room.IsVisible)
-        {
-            GameObject prefabButtonRoom = Instantiate(prefabRoomInList, roomsContainer);
-            ButtonRoom buttonRoom = prefabButtonRoom.GetComponent<ButtonRoom>();
-            buttonRoom.SetRoom(room.Name,room.MaxPlayers,room.PlayerCount);
-        }
-    }
-    
     public void SetRoomName()
     {
         _roomName = textRoomName.text;
@@ -116,5 +149,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
         {
             _panelRoom.GetComponent<RoomController>().buttonStartGame.SetActive(false);
         }
+        _panelRoom.GetComponent<RoomController>().DeleteAllPlayersInList();
+        _panelRoom.GetComponent<RoomController>().FillPlayersList();
     }
 }
