@@ -14,6 +14,10 @@ public class ButtonRoom : MonoBehaviour
 
     public void JoinRoomOnClick()
     {
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+        }
         PhotonNetwork.JoinRoom(nameText.text);
     }
 

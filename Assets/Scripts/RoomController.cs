@@ -17,16 +17,9 @@ public class RoomController : MonoBehaviourPunCallbacks
     public void ExitPanelRoom()
     {
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LeaveLobby();
-        StartCoroutine(ReJoinLobby());
-    }
-
-    IEnumerator ReJoinLobby()
-    {
-        yield return new WaitForSeconds(2);
         PhotonNetwork.JoinLobby();
         _panelRoom.SetActive(false);
         _panelLobby.SetActive(true);
     }
-    
+
 }
