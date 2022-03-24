@@ -54,6 +54,8 @@ public class ConnectionController : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        
         base.OnConnectedToMaster();
         Debug.Log("Estamos conectados al servidor Photon");
         Debug.Log("Bienvenido "+ PhotonNetwork.NickName);

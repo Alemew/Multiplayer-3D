@@ -18,6 +18,8 @@ public class RoomController : MonoBehaviourPunCallbacks
     
     public GameObject prefabPlayerInList;
     public Transform playersContainer;
+    [SerializeField] 
+    private int indexMultiplayerScene;
 
     public void ExitPanelRoom()
     {
@@ -42,6 +44,16 @@ public class RoomController : MonoBehaviourPunCallbacks
         for (int i = playersContainer.childCount-1; i >=0; i--)
         {
             Destroy(playersContainer.GetChild(i).gameObject);
+        }
+    }
+
+    public void StartGameOnClick()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            
+            PhotonNetwork.LoadLevel(indexMultiplayerScene);
         }
     }
 
