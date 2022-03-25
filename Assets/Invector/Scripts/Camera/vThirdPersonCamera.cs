@@ -1,7 +1,8 @@
 ﻿using Invector;
+using Photon.Pun;
 using UnityEngine;
 
-public class vThirdPersonCamera : MonoBehaviour
+public class vThirdPersonCamera : MonoBehaviourPunCallbacks
 {
     #region inspector properties    
 

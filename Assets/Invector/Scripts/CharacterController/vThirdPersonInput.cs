@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 namespace Invector.vCharacterController
 {
-    public class vThirdPersonInput : MonoBehaviour
+    public class vThirdPersonInput : MonoBehaviourPunCallbacks
     {
         #region Variables       
 
@@ -25,8 +26,11 @@ namespace Invector.vCharacterController
 
         protected virtual void Start()
         {
-            InitilizeController();
-            InitializeTpCamera();
+            if (photonView.IsMine)
+            {
+                InitilizeController();
+                InitializeTpCamera();
+            }
         }
 
         protected virtual void FixedUpdate()
