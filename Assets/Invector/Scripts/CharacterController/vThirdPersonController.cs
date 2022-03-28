@@ -124,5 +124,12 @@ namespace Invector.vCharacterController
             else
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
         }
+
+        public virtual void Fire()
+        {
+            Debug.Log("Pum");
+            animator.SetTrigger("Firing");
+            animator.CrossFadeInFixedTime("Fire",.2f);
+        }
     }
 }

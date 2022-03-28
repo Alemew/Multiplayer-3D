@@ -14,6 +14,8 @@ namespace Invector.vCharacterController
         public KeyCode strafeInput = KeyCode.Tab;
         public KeyCode sprintInput = KeyCode.LeftShift;
 
+        public KeyCode fireInput = KeyCode.Mouse0;
+        
         [Header("Camera Input")]
         public string rotateCameraXInput = "Mouse X";
         public string rotateCameraYInput = "Mouse Y";
@@ -83,6 +85,7 @@ namespace Invector.vCharacterController
             SprintInput();
             StrafeInput();
             JumpInput();
+            FireInput();
         }
 
         public virtual void MoveInput()
@@ -147,6 +150,19 @@ namespace Invector.vCharacterController
         {
             if (Input.GetKeyDown(jumpInput) && JumpConditions())
                 cc.Jump();
+        }
+        
+        protected virtual bool FireConditions()
+        {
+            return cc.isGrounded && !cc.isJumping;
+        }
+
+        protected virtual void FireInput()
+        {
+            if (Input.GetKeyDown(fireInput) && FireConditions())
+            {
+                cc.Fire();
+            }
         }
 
         #endregion       
