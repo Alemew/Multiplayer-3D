@@ -45,3 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4081915153215000126, guid: 43cdb95b3136a6046b68746c567dfd1e, type: 3}
+  destroyablesPrefab:
+  - {fileID: 1964431040936758, guid: 886f526c75cb7e6488d4944c061f74c2, type: 3}
+  - {fileID: 1223915382249154, guid: 2e55f9fe3c34fc44caffabedb5705964, type: 3}
+  - {fileID: 1872117079877494, guid: 848292cd653dfbc49bc7616f196df499, type: 3}
+  - {fileID: 1519524666773970, guid: 2c8a500195e943247abc5d6b511bb854, type: 3}
+  - {fileID: 1831902070939854, guid: 92fa75d225f631b4cae0fcd258a7d20e, type: 3}

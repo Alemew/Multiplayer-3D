@@ -1,9 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Invector.vCharacterController
 {
     public class vThirdPersonController : vThirdPersonAnimator
     {
+
+        private AudioSource fireSound;
+
+        private void Awake()
+        {
+            fireSound = GetComponent<AudioSource>();
+        }
+
         public virtual void ControlAnimatorRootMotion()
         {
             if (!this.enabled) return;
@@ -127,9 +136,9 @@ namespace Invector.vCharacterController
 
         public virtual void Fire()
         {
-            Debug.Log("Pum");
             animator.SetTrigger("Firing");
             animator.CrossFadeInFixedTime("Fire",.2f);
+            fireSound.Play();
         }
     }
 }

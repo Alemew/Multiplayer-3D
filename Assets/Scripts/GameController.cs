@@ -8,6 +8,8 @@ public class GameController : MonoBehaviourPunCallbacks
 {
     [SerializeField] 
     private GameObject playerPrefab;
+    [SerializeField] 
+    private GameObject [] destroyablesPrefab;
     
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,16 @@ public class GameController : MonoBehaviourPunCallbacks
                 int randomPosition = Random.Range(20, 29);
                 Vector3 position = new Vector3(randomPosition, 0, randomPosition);
                 PhotonNetwork.Instantiate(playerPrefab.name, position, Quaternion.identity);
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                for (int i = 0; i < destroyablesPrefab.Length; i++)
+                {
+                    int randomPosition = Random.Range(20, 29);
+                    Vector3 position = new Vector3(randomPosition, 0, randomPosition);
+                    PhotonNetwork.Instantiate(destroyablesPrefab[i].name, position, Quaternion.identity);
+                }
             }
         }
     }
