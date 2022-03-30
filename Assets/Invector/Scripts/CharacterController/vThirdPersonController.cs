@@ -134,11 +134,18 @@ namespace Invector.vCharacterController
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
         }
 
-        public virtual void Fire()
+        public void Fire()
         {
-            animator.SetTrigger("Firing");
-            animator.CrossFadeInFixedTime("Fire",.2f);
+            
+            animator.SetBool("Firing",true);
+            animator.CrossFadeInFixedTime("Fire", .2f);
             fireSound.Play();
+        }
+
+        public void NotFire()
+        {
+            fireSound.Stop();
+            animator.SetBool("Firing",false);
         }
     }
 }

@@ -163,6 +163,11 @@ namespace Invector.vCharacterController
             {
                 cc.Fire();
             }
+
+            if (Input.GetKeyUp(fireInput))
+            {
+                cc.NotFire();
+            }
         }
 
         #endregion       

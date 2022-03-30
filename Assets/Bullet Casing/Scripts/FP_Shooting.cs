@@ -17,7 +17,7 @@ public class FP_Shooting : MonoBehaviour {
         beingHandled = true;
 		
 		GameObject cardridge;
-			if (SpawnPositionCar) cardridge = (GameObject)Instantiate(Cardridge, SpawnPositionCar.transform.position + SpawnPositionCar.transform.right, SpawnPositionCar.transform.rotation);
+			if (SpawnPositionCar) cardridge = (GameObject)Instantiate(Cardridge, SpawnPositionCar.transform.position, SpawnPositionCar.transform.rotation);
 			else  cardridge = (GameObject)Instantiate(Cardridge, SpawnPositionCar.transform.position + SpawnPositionCar.transform.forward, SpawnPositionCar.transform.rotation);        
         yield return new WaitForSeconds(ShootingSlowness);
 		
@@ -31,7 +31,7 @@ public class FP_Shooting : MonoBehaviour {
         beingHandled = true;
 		
 		GameObject cardridge01;
-			if (SpawnPositionCar) cardridge01 = (GameObject)Instantiate(Cardridge01, SpawnPositionCar.transform.position + SpawnPositionCar.transform.right, SpawnPositionCar.transform.rotation);
+			if (SpawnPositionCar) cardridge01 = (GameObject)Instantiate(Cardridge01, SpawnPositionCar.transform.position, SpawnPositionCar.transform.rotation);
 			else  cardridge01 = (GameObject)Instantiate(Cardridge01, SpawnPositionCar.transform.position + SpawnPositionCar.transform.forward, SpawnPositionCar.transform.rotation);        
         yield return new WaitForSeconds(ShootingSlowness);
 		
@@ -44,7 +44,7 @@ public class FP_Shooting : MonoBehaviour {
 			StartCoroutine (Shooting ());
 			
 		}
-		if (Input.GetKey (KeyCode.Mouse1) && !beingHandled) {
+		if (Input.GetKey (KeyCode.Mouse0) && !beingHandled) {
 			StartCoroutine (Shooting_01 ());
 
 		}
