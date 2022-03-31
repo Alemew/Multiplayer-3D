@@ -7,6 +7,8 @@ namespace Invector.vCharacterController
     {
 
         private AudioSource fireSound;
+        [SerializeField] 
+        private AudioClip gunClip;
 
         private void Awake()
         {
@@ -134,18 +136,23 @@ namespace Invector.vCharacterController
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
         }
 
-        public void Fire()
+        public virtual void Fire()
         {
             
-            animator.SetBool("Firing",true);
-            animator.CrossFadeInFixedTime("Fire", .2f);
-            fireSound.Play();
+            isFiring = true;
+           
+                animator.CrossFadeInFixedTime("Fire", .2f);
+                fireSound.loop = true;
+                fireSound.clip = gunClip;
+                fireSound.Play();
+            
+            
         }
 
         public void NotFire()
         {
             fireSound.Stop();
-            animator.SetBool("Firing",false);
+            isFiring = false;
         }
     }
 }

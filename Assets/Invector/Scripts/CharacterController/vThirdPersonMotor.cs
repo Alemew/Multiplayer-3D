@@ -80,6 +80,8 @@ namespace Invector.vCharacterController
                 _isStrafing = value;
             }
         }
+
+        internal bool isFiring;
         internal bool isGrounded { get; set; }
         internal bool isSprinting { get; set; }
         public bool stopMove { get; protected set; }
@@ -96,7 +98,8 @@ namespace Invector.vCharacterController
         internal RaycastHit groundHit;                      // raycast to hit the ground 
         internal bool lockMovement = false;                 // lock the movement of the controller (not the animation)
         internal bool lockRotation = false;                 // lock the rotation of the controller (not the animation)        
-        internal bool _isStrafing;                          // internally used to set the strafe movement                
+        internal bool _isStrafing;                          // internally used to set the strafe movement  
+        internal bool _isFiring;
         internal Transform rotateTarget;                    // used as a generic reference for the camera.transform
         internal Vector3 input;                             // generate raw input for the controller
         internal Vector3 colliderCenter;                    // storage the center of the capsule collider info                
